@@ -1,0 +1,412 @@
+{% extends 'global/pages/base.html' %}
+{% load static %}
+{% block title %} Imóveis {% endblock %}
+
+{% block ogimg %} {{ imovel.imoveisfotos.all.first.foto.url }} {% endblock %}
+{% block ogtitle %} {{ imovel.titulo }} {% endblock %}
+{% block ogurl %} {{ request.META.HTTP_HOST  }}{{ request.get_full_path }} {% endblock %}
+{% block ogdescription %}  
+Casa - {{ imovel.qtd_quarto }} Quarto(s) R$ {{ imovel.valor_aluguel }} 
+{{ imovel.bairro }},{{ imovel.cidade }}-{{ imovel.estado }}
+
+{{ imovel.descricao }}
+
+{% endblock %}
+
+{% block metaimg %} {{ imovel.imoveisfotos.all.first.foto.url }} {% endblock %}
+{% block cmtitle %} {{ imovel.titulo }} {% endblock %}
+{% block cmurl %} {{ request.META.HTTP_HOST  }}{{ request.get_full_path }} {% endblock %}
+{% block cmdescription %}  
+Casa - {{ imovel.qtd_quarto }} Quarto(s) R$ {{ imovel.valor_aluguel }} 
+{{ imovel.bairro }},{{ imovel.cidade }}-{{ imovel.estado }}
+
+{{ imovel.descricao }}
+
+{% endblock %}
+
+{% block ttimg %} {{ imovel.imoveisfotos.all.first.foto.url }} {% endblock %}
+{% block tttitle %} {{ imovel.titulo }} {% endblock%}
+{% block tturl %} {{ request.META.HTTP_HOST  }}{{ request.get_full_path }} {% endblock %}
+{% block ttdescription %}
+Casa - {{ imovel.qtd_quarto }} Quarto(s) R$ {{ imovel.valor_aluguel }} 
+{{ imovel.bairro }},{{ imovel.cidade }}-{{ imovel.estado }}
+
+{{ imovel.descricao }}
+
+{% endblock %}
+
+{% block content %}
+<div class="main-bg">
+    {% include 'global/partials/top_menu.html' %}
+
+    {% include 'imoveis/partials/modal_message.html' %}
+    <div class="col-xl-12">
+        <div class="main-content imoveis-list row">
+
+
+            <div class="col-xl-12">
+                <div class="card div-card-list">
+                    <div class="card-header imovel-detail-foto">
+                        <div id="carouselID{{ imovel.id }}" class="carousel slide" data-bs-interval="false"
+                            style="height:100%;">
+                            <div class="carousel-inner" style="height:100%;">
+                                {% for foto in imovel.imoveisfotos.all %}
+                                <div class="carousel-item {% if  forloop.counter  == 1 %} active {% endif %}"
+                                    style="height:100%;">
+                                    <img src="{{ foto.foto.url }}" class="d-block w-100 img-fluid"
+                                        alt="Foto {{ forloop.counter}} do imóvel {{ imovel.titulo }}">
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <button class="carousel-control-prev" type="button"
+                                data-bs-target="#carouselID{{ imovel.id }}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Voltar</span>
+                            </button>
+                            <button class="carousel-control-next" type="button"
+                                data-bs-target="#carouselID{{ imovel.id }}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Avançar</span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <div
+                        class="card-header center bg-transparent border border-info rounded-3 button-100 shadow p-3 mb-5 bg-body rounded">
+                        <h4 class="primary-font primary-color">Compartilhe</h4>
+                        <div class="a2a_kit a2a_kit_size_32 a2a_default_style ">
+                            <div class="d-flex">
+                                <a class="a2a_button_facebook "></a>
+                                <a class="a2a_button_twitter"></a>
+                                <a class="a2a_button_whatsapp"></a>
+                                <a class="a2a_button_telegram"></a>
+                                <a class="a2a_button_facebook_messenger"></a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-body card-imoveis-list row ">
+                        <div class="center border border-info rounded-3 button-100 shadow p-3 mb-5 bg-body rounded">
+                            <h5>{{ imovel.titulo }}</h5>
+                        </div>
+
+                        <div class="col-xl-4 border border-info rounded-3 button-100 shadow p-3 mb-5 bg-body rounded">
+                            <div class="column-div-4">
+                                <div>
+                                    <div class="center">
+                                        <i class="fa-solid fa-sack-dollar"></i>
+                                    </div>
+
+                                    <div class="center">
+                                        <p>R$ {{ imovel.valor_aluguel }}</p>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="center">
+                                        <i class="fa-solid fa-bed"></i>
+                                    </div>
+
+                                    <div class="center">
+                                        <p>{{ imovel.qtd_quarto }}</p>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="center">
+                                        <i class="fa-solid fa-shower"></i>
+                                    </div>
+
+                                    <div class="center">
+                                        <p>{{ imovel.qtd_banheiro }}</p>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div
+                                        class="center {% if imovel.qtd_vaga < 1 %} acept-red {% else %} acept-green {% endif %}">
+                                        <i class="fa-solid fa-car"></i>
+                                    </div>
+
+                                    <div class="center ">
+                                        {% if imovel.qtd_vaga < 1 %} <p>Sem vaga</p>
+                                            {% else %}
+                                            <p>{{ imovel.qtd_vaga }}</p>
+                                            {% endif %}
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 border border-info rounded-3 button-100 shadow p-3 mb-5 bg-body rounded">
+
+                            <div class="column-div-4">
+                                <div>
+                                    <div
+                                        class="center {% if imovel.aceita_crianca == 'nao' %} acept-red {% else %} acept-green {% endif %}">
+                                        <i class="fa-solid fa-baby-carriage"></i>
+                                    </div>
+
+                                    <div class="center ">
+                                        {% if imovel.aceita_crianca == 'nao' %}
+                                        <p>Não aceita</p>
+                                        {% else %}
+                                        <p>Aceita</p>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div
+                                        class="center {% if imovel.aceita_pet == 'nao' %} acept-red {% else %} acept-green {% endif %}">
+                                        <i class="fa-solid fa-paw"></i>
+                                    </div>
+
+                                    <div class="center ">
+                                        {% if imovel.aceita_pet == 'nao' %}
+                                        <p>Não ceita</p>
+                                        {% else %}
+                                        <p>Aceita</p>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div
+                                        class="center {% if imovel.paga_luz == 'nao' %} acept-red {% else %} acept-green {% endif %}">
+                                        <i class="fa-solid fa-lightbulb"></i>
+                                    </div>
+
+                                    <div class="center ">
+                                        {% if imovel.paga_luz == 'nao' %}
+                                        <p>Não paga</p>
+                                        {% else %}
+                                        <p>Paga</p>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div
+                                        class="center {% if imovel.paga_agua == 'nao' %} acept-red {% else %} acept-green {% endif %}">
+                                        <i class="fa-solid fa-faucet-drip"></i>
+                                    </div>
+
+                                    <div class="center ">
+                                        {% if imovel.paga_agua == 'nao' %}
+                                        <p>Não paga</p>
+                                        {% else %}
+                                        <p>Paga</p>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 border border-info rounded-3 button-100 shadow p-3 mb-5 bg-body rounded">
+                            <div class="column-div-4">
+
+                                <div>
+                                    <div
+                                        class="center {% if imovel.paga_iptu == 'nao' %} acept-red {% else %} acept-green {% endif %}">
+                                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                                    </div>
+
+                                    <div class="center ">
+                                        {% if imovel.paga_iptu == 'nao' %}
+                                        <p>Sem IPTU</p>
+                                        {% else %}
+                                        <p>Paga IPTU</p>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div
+                                        class="center {% if imovel.paga_incendio == 'nao' %} acept-red {% else %} acept-green {% endif %}">
+                                        <i class="fa-solid fa-house-fire"></i>
+                                    </div>
+
+                                    <div class="center ">
+                                        {% if imovel.paga_incendio == 'nao' %}
+                                        <p>Sem taxa</p>
+                                        {% else %}
+                                        <p>Paga taxa</p>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div
+                                        class="center {% if imovel.paga_deposito == 'nao' %} acept-red {% else %} acept-green {% endif %}">
+                                        <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                                    </div>
+
+                                    <div class="center ">
+                                        {% if imovel.paga_deposito == 'nao' %}
+                                        <p>S/ depósito</p>
+                                        {% else %}
+                                        <p>Paga depósito</p>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div
+                                        class="center {% if imovel.idependente == 'nao' %} acept-red {% else %} acept-green {% endif %}">
+                                        <i class="fa-solid fa-people-roof"></i>
+                                    </div>
+
+                                    <div class="center ">
+                                        {% if imovel.idependente == 'nao' %}
+                                        <p>Vila</p>
+                                        {% else %}
+                                        <p><small>Independente</small></p>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div
+                            class="col-xl-6 primary-color border border-info rounded-3 button-100 shadow p-3 mb-5 bg-body rounded">
+                            <h5 class="margin-top"><i class="fa-solid fa-location-dot"></i> Localização do
+                                imóvel</h5>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <p class="primary-font-italic">Rua:</p>
+                                    <p>{{ imovel.rua }}</p>
+                                </div>
+                                <div class="col-xl-6">
+                                    <p class="primary-font-italic">Bairro:</p>
+                                    <p>{{ imovel.bairro }}</p>
+                                </div>
+                                <div class="col-xl-6">
+                                    <p class="primary-font-italic">Cidade:</p>
+                                    <p>{{ imovel.cidade }}</p>
+                                </div>
+                                <div class="col-xl-6">
+                                    <p class="primary-font-italic">Estado:</p>
+                                    <p>{{ imovel.estado | upper }}</p>
+                                </div>
+
+                                <div class="col-xl-6">
+                                    <p class="primary-font-italic">CEP:</p>
+                                    <p>{{ imovel.cep}}</p>
+                                </div>
+                                <div class="col-xl-6">
+                                    <p class="primary-font-italic">Comunidade:</p>
+                                    {% if not imovel.comunidade_nome %}
+                                    <p>Não é comunidade</p>
+                                    {% else %}
+                                    <p>{{ imovel.comunidade_nome }}</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-12">
+                                    <a href="https://google.com/maps/search/{{ imovel.rua }},{{ imovel.bairro }},{{ imovel.cidade }}-{{ imovel.estado }}"
+                                         target="_blank" class="btn btn-outline-primary" role="button"><i
+                                            class="fa-solid fa-map-location-dot"></i>Ver no mapa</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="col-xl-6 primary-color border border-info rounded-3 button-100 shadow p-3 mb-5 bg-body rounded">
+                            <h5 class="margin-top"><i class="fa-solid fa-file-invoice-dollar"></i> Taxas e valores</h5>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <p class="primary-font-italic">Valor mensal</p>
+                                    <p>R$ {{ imovel.valor_aluguel }}</p>
+                                </div>
+                                <div class="col-xl-6">
+                                    <p class="primary-font-italic">IPTU:</p>
+                                    <p>R$ {{ imovel.valor_iptu }}</p>
+                                </div>
+                                <div class="col-xl-6">
+                                    <p class="primary-font-italic">Depósito:</p>
+                                    <p>R$ {{ imovel.valor_deposito}}</p>
+                                </div>
+                                <div class="col-xl-6">
+                                    <p class="primary-font-italic">Taxa de incêndio:</p>
+                                    <p>R$ {{ imovel.valor_incendio }}</p>
+                                </div>
+
+                                <div class="col-xl-12" style="margin-top: 5rem;">
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <p class="primary-font fs-3">Total mensal:</p>
+                                        </div>
+                                        <div class="col-xl-6 fs-3">
+                                            <p class="primary-font ">R$
+                                                {{ imovel.total_mensal | floatformat:"2g" }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="col-xl-12 primary-color border border-info rounded-3 button-100 shadow p-3 mb-5 bg-body rounded">
+                            <h5 class="margin-top"><i class="fa-solid fa-file-lines"></i> Descrição do imóvel</h5>
+                            <p>{{ imovel.descricao }}</p>
+                        </div>
+
+
+
+                    </div>
+                    <div class="card-footer div-card-list-footer">
+
+                        <button type="button" class="btn btn-outline-primary " data-bs-toggle="modal"
+                            data-bs-target="#msgpropietario"><i class="fa-solid fa-comments-dollar"></i>
+                            Falar com propietário</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+</div>
+<script>
+    var a2a_config = a2a_config || {};
+    a2a_config.onclick = 1;
+    a2a_config.locale = "pt-BR";
+</script>
+<script async src="https://static.addtoany.com/menu/page.js"></script>
+<!-- AddToAny END -->
+
+<!-- Script caso queira deixar o menu de navegação fixo ao rolar a página-->
+<!--
+<script>
+    window.onload = function (e) {
+        var offset = document.getElementsByClassName('navbar-principal')[0].offsetTop;
+        var menu = document.getElementsByClassName('navbar-principal')[0];
+
+        document.addEventListener('scroll', function () {
+            if (document.body.scrollTop > offset || document.documentElement.scrollTop > offset) {
+                menu.style.position = 'fixed';
+            } else {
+                menu.style.position = 'initial';                
+            }
+        });
+    }
+</script>
+-->
+
+{% endblock %}

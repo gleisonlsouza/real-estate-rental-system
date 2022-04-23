@@ -1,0 +1,175 @@
+{% extends 'global/pages/base.html' %}
+{% block title %} Cadastro {% endblock %}
+
+{% block ogimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block ogtitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock %}
+{% block ogurl %} {{ request.META.HTTP_HOST  }}{{ request.get_full_path }} {% endblock %}
+{% block ogdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block metaimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block cmtitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock %}
+{% block cmurl %} {{ request.META.HTTP_HOST  }}{{ request.get_full_path }} {% endblock %}
+{% block cmdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block ttimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block tttitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock%}
+{% block tturl %} {{ request.META.HTTP_HOST  }}{{ request.get_full_path }} {% endblock %}
+{% block ttdescription %}  O melhor site de aluguel popular {% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+
+<div class="landing-page main-bg" id="home">
+    {% include 'global/partials/top_menu.html' %}
+    <div class="col-xl-12 min-hight-100 position-relative">
+        <div class="row ">
+            <div class="col-xl-4 w-100"></div>
+            <div class="col-xl-4 div-card-center ">
+                <div class="card card-imovel ">
+                    <div class="card-header main-bg card-title text-center">
+                        <h1>Cadastro</h1>
+                        <div class="text-center">
+                            <h3>Faça cadastro gratuitamente</h3>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'message-error' %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Atenção!</strong>
+                            <p>{{ message }}</p>
+                            <button type="button" class="btn-close align-right" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    {% if not user.is_authenticated %}
+                    <form id="register" action="{% url 'users:users_register' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="card-body items-margin ">
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                                    {{ form.first_name }}
+                                    {{ form.first_name.errors }}
+                                </div>
+                                <div class="col-xl-6">
+                                    <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                                    {{ form.last_name }}
+                                    {{ form.last_name.errors }}
+                                </div>
+                                <div class="col-xl-6">
+                                    <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                                    {{ form.email }}
+                                    {{ form.email.errors }}
+                                </div>
+                                <div class="col-xl-6">
+                                    <label for="{{ form.email2.id_for_label }}">{{ form.email2.label }}</label>
+                                    {{ form.email2 }}
+                                    {{ form.email2.errors }}
+                                </div>
+                                <div class="col-xl-6">
+                                    <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+                                    {{ form.password }}
+                                    <small>{{ form.password.help_text }}</small>
+                                    {{ form.password.errors }}
+                                </div>
+                                <div class="col-xl-6">
+                                    <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+                                    {{ form.password2 }}
+                                    {{ form.password2.errors }}
+                                </div>
+                                <div class="col-xl-6">
+                                    <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+                                    {{ form.username }}
+                                    {{ form.username.errors }}
+                                </div>
+                                <div class="col-xl-6">
+                                    <label for="{{ form.celular.id_for_label }}">{{ form.celular.label }}</label>
+                                    {{ form.celular }}
+                                    {{ form.celular.errors }}
+                                </div>
+                                <div class="col-xl-12">
+                                    <label for="{{ form.tipo_usuario.id_for_label }}">
+                                        {{ form.tipo_usuario.label}}</label>
+                                    {{ form.tipo_usuario }}
+                                    {{ form.tipo_usuario.errors }}
+                                </div>
+                                <div class="row col-xl-12 mt-2 text-center">
+                                    <div class="col-sm-12">
+                                        <label for="{{ form.termos.id_for_label }}">{{ form.termos.label }}</label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        {{ form.termos }} <a href="#" data-bs-toggle="modal"
+                                            data-bs-target="#modalTermos">
+                                            Declaro que li e aceito os termos</a>
+                                    </div>
+                                    {{ form.termos.errors }}
+                                </div>
+                                <div class="col-xl-12 mt-2 text-center">
+                                    {% include 'users/partials/recaptcha.html' %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer items-margin">
+                            <div class="row">
+                                <div class="col">
+                                    <button type="reset" class="btn btn-primary mb-3">Limpar</button>
+                                </div>
+                                <div class="col"><button type="submit" class="btn btn-primary mb-3">Cadastrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    {% else %}
+                    <div class="card-body">
+                        <div class="alert alert-info" role="alert">
+                            <h4 class="alert-heading">Olá! {{ user.first_name }}</h4>
+                            <p>Você já está logado como <strong>{{ user.username }}</strong></p>
+                            <hr>
+                            <p class="mb-0">O que você gostaria de fazer? </p>
+                        </div>
+                    </div>
+                    <div class="card-footer items-margin">
+                        <form action="{% url 'users:users_logout' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col">
+                                    <a href="#" type="button" class="btn btn-primary mb-3">Meu painel</a>
+                                </div>
+                                <input type="hidden" name="username" value="{{ request.user.username }}">
+                                <div class="col"><button type="submit" class="btn btn-primary mb-3">Sair</button>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-xl-4 w-100"></div>
+        </div>
+
+    </div>
+    </div>
+
+    {% include 'users/partials/termos.html' %}
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="{% static 'users/js/jquery.mask.js' %}"></script>
+
+<script>
+
+    $("#id_celular").mask("(00) 00000-0000");
+
+</script>
+
+
+
+{%endblock%}

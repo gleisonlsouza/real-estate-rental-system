@@ -1,0 +1,206 @@
+{% extends 'global/pages/base.html' %}
+{% load static %}
+{% block title %} Meu Painel {% endblock %}
+
+{% block ogimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block ogtitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock %}
+{% block ogurl %} {{ request.META.HTTP_HOST }}{{ request.get_full_path }} {% endblock %}
+{% block ogdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block metaimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block cmtitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock %}
+{% block cmurl %} {{ request.META.HTTP_HOST }}{{ request.get_full_path }} {% endblock %}
+{% block cmdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block ttimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block tttitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock%}
+{% block tturl %} {{ request.META.HTTP_HOST }}{{ request.get_full_path }} {% endblock %}
+{% block ttdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block content %}
+{% load alert_msgs %}
+
+<div class="main-bg min-hight-100">
+    <!-- Inicio do menu lateral esquerdo -->
+    <div class="col-xl-3 div-side-menu">
+        <section class="side-menu">
+            <h2>{% include 'users/partials/logo.html' %}</h2>
+            <hr class="dropdown-divider">
+
+
+            <div class="side-menu-options ">
+
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapse_meu_painel" aria-expanded="true"><i class="fa-solid fa-sliders">
+                    </i> Meu Painel</button>
+            </div>
+            <hr class="dropdown-divider">
+
+            <div class="collapse show" id="collapse_meu_painel">
+                <div class="side-menu-options ">
+                    <a href="{% url 'users:users_dashboard' %}" class="btn btn-primary mt-2 btn-primary">Home Painel</a>
+                </div>
+                <div class="side-menu-options">
+                    <button class="btn btn-primary btn-filter" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse_mensagens" aria-expanded="false"><i class="fa-solid  fa-envelope"></i>
+                        Minhas Mensagens</button>
+                </div>
+                <div class="collapse" id="collapse_mensagens">
+
+                    <div class="side-menu-options">
+                        <div class="me-2 ms-2 mt-2 message-list">
+                            {% for chat in chats %}
+                            {% unread_qtd_msgs request chat.id as qtd_msgs %}
+                            <div class="message-list-item {% if qtd_msgs < 1 %} message-read {% endif %}">
+                                <a href="{% url 'users:dashboard_mensagem' chat.id %}"
+                                    class="btn btn-primary mt-2 third-bg-color position-relative">
+                                    {% if qtd_msgs > 0 %}
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <span
+                                        class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger">
+                                        {{ qtd_msgs }}
+                                        <span class="visually-hidden">Notificações</span>
+
+                                    </span>
+                                    <small><i> {{ chat.data |date:"SHORT_DATETIME_FORMAT" }}</i></small>
+                                    {% else %}
+                                    <i class="fa-solid fa-envelope-open"></i>
+                                    <small><i> {{ chat.data |date:"SHORT_DATETIME_FORMAT" }}</i></small>
+                                    {% endif %}
+                                    <p>De: {{ chat.locador.first_name }}
+                                        Para: {{ chat.imovel_id.propietario.first_name }}
+                                    </p>
+
+                                    <p>{{ chat.titulo }}</p>
+                                </a>
+
+                            </div>
+                            {% endfor %}
+                        </div>
+
+
+                        <a href="{% url 'users:dashboard_mensagens' %}" class="btn btn-primary mt-2 third-bg-color">Ver
+                            todas</a>
+
+                    </div>
+                </div>
+
+                <div class="side-menu-options">
+                    <button class="btn btn-primary btn-filter" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse_imoveis" aria-expanded="false">
+                        <i class="fa-solid fa-house-chimney"></i> Meus imóveis</button>
+                </div>
+                <div class="collapse" id="collapse_imoveis">
+                    <div class="side-menu-options">
+                        <a href="{% url 'users:dashboard_imoveis' %}" class="btn btn-primary mt-2 third-bg-color">Exibir
+                            todos</a>
+                        <a href="{% url 'imoveis:imoveis_new' %}" class="btn btn-primary mt-2 third-bg-color">
+                            Cadastrar novo
+                        </a>
+                    </div>
+                </div>
+                <div class="side-menu-options">
+                    <button class="btn btn-primary btn-filter" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse_dados_pessoais" aria-expanded="false">
+                        <i class="fa-solid fa-address-card"></i> Dados pessoais</button>
+                </div>
+                <div class="collapse" id="collapse_dados_pessoais">
+                    <div class="side-menu-options">
+                        <a href="{% url 'users:dashboard_dadospessoais' %}"
+                            class="btn btn-primary mt-2 third-bg-color">Editar</a>
+                    </div>
+                </div>
+
+                <div class="side-menu-options">
+                    <button class="btn btn-primary btn-filter" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse_dados_login" aria-expanded="false">
+                        <i class="fa-solid fa-user"></i> Dados de login</button>
+                </div>
+                <div class="collapse" id="collapse_dados_login">
+                    <div class="side-menu-options">
+                        <a href="{% url 'users:dashboard_dadoslogin' %}"
+                            class="btn btn-primary mt-2 third-bg-color">Editar</a>
+                    </div>
+                </div>
+
+                <hr class="dropdown-divider">
+                <div class="side-menu-options row">
+                    <div class="col-xl-12">
+                        <form action="{% url 'users:users_logout' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <input type="hidden" name="username" value="{{ request.user.username }}">
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary mb-3">
+                                        Sair
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </section>
+    </div>
+    <!-- Fim do menu lateral esquerdo -->
+
+    <!-- Conteúdo da página -->
+    <div class="row min-hight-100">
+        <div class="col-xl-3 ">
+
+        </div>
+        <div class="col-xl-9">
+            <div class="main-content min-hight-100">
+                <div class="card card-imovel ">
+                    <div class="card-header main-bg card-title text-center">
+                        <h1>Meu Painel</h1>
+                        <div class="text-center">
+                            <h3>Bem vindo! {{ request.user.first_name }}</h3>
+                        </div>
+                    </div>
+                    {% include 'global/partials/messages.html' %}
+                    <div class="card-body items-margin ">
+
+                        <h4>{{ conteudo.subtitulo }}</h4>
+
+                        {% include conteudo.pagina %}
+
+
+                    </div>
+                    <div class="card-footer items-margin">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Fim do conteúdo da página -->
+
+</div>
+<script src="{% static 'users/js/collapse_filter.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="{% static 'users/js/jquery.mask.js' %}"></script>
+
+<script>
+
+    $("#id_celular").mask("(00) 00000-0000");
+
+</script>
+
+<script>
+    document.addEventListener("keydown", function (e) {
+        if (e.keyCode === 13) {
+
+            e.preventDefault();
+
+        }
+    });
+</script>
+
+
+
+{% endblock %}

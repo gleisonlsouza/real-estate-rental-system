@@ -1,0 +1,350 @@
+{% extends 'global/pages/base.html' %}
+{% block title %} Adicionar / Editar {% endblock %}
+
+{% block ogimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block ogtitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock %}
+{% block ogurl %} {{ request.META.HTTP_HOST  }}{{ request.get_full_path }} {% endblock %}
+{% block ogdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block metaimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block cmtitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock %}
+{% block cmurl %} {{ request.META.HTTP_HOST  }}{{ request.get_full_path }} {% endblock %}
+{% block cmdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block ttimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block tttitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock%}
+{% block tturl %} {{ request.META.HTTP_HOST  }}{{ request.get_full_path }} {% endblock %}
+{% block ttdescription %}  O melhor site de aluguel popular {% endblock %}
+
+
+{% load static %}
+
+{% block content %}
+
+
+
+<div class="col-xl-12 main-bg">
+    {% include 'global/partials/top_menu.html' %}
+
+
+
+    <div class="row">
+        <div class="col-xl-3 w-100"></div>
+        <div class="col-xl-6 div-card-center">
+            <div class="card card-imovel">
+                <div class="card-header main-bg card-title text-center">
+                    <h1>Cadastrar/Editar imóvel</h1>
+                    {% if not form.instance.id %}
+                    <div class="text-center">
+                        <h3>Após cadastrar o imóvel, você poderá enviar as fotos.</h3>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-header  bg-transparent">
+                    <!-- Exibe as mensagens caso exista alguma -->
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'message-error' %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Atenção!</strong> {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endif %}
+                    {% if message.tags == 'message-success' %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Tudo certo!</strong> {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+
+                    <!-- Fim das mensagens -->
+
+                    <div class="row">
+                        {% for foto in fotos %}
+                        {% if foto and foto.foto.value.url %}
+                        <form id="formDeleteFoto-{{ forloop.counter }}"
+                            action="{% url 'imoveis:imoveis_foto_delete' imovelID=form.instance.id  fotoID=foto.instance.id %}"
+                            method="POST" style="display: none;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary " style="width: 100%;"><i
+                                    class="fa-solid fa-trash-can"></i></button>
+                        </form>
+                        <div class="column-gallery">
+                            <img src="{{ foto.foto.value.url }}" alt="" style="width:100%; "
+                                onclick="myFunction(this,'formDeleteFoto-{{ forloop.counter }}');">
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+
+                    </div>
+
+
+                    <div class="container-gallery">
+                        <span onclick="this.parentElement.style.display='none'" class="closebtn">
+                            &times;
+                        </span>
+                        <img src="..." id="expandedImg" style="width:100%" alt="...">
+                        <div id="imgtext"></div>
+                        <button id="btnDelete" type="button" class="btn btn-primary" style="width: 100%;"><i
+                                class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                </div>
+
+                {% if form.instance.id %}
+                <div class="card-header bg-transparent">
+
+                    <div class="col-xl-12 items-margin">
+                        <form action="{% url 'imoveis:imoveis_foto_upload' imovelID=form.instance.id %}" method="POST"
+                            enctype='multipart/form-data'>
+                            {% csrf_token %}
+                            <label for="formFile" class="form-label">Selecione as fotos para enviar</label>
+                            <input class="form-control" type="file" id="formFile" name="images"
+                                accept="image/png, image/gif, image/jpeg" multiple>
+
+                            <button id="btnEnviaFotos" type="submit" class="btn btn-primary" style="width: 100%;">Enviar
+                                fotos</button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+
+                <form action="#" method="POST" enctype='multipart/form-data'>
+                    {% csrf_token %}
+                    <div class="card-body items-margin">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <label for="{{ form.titulo.id_for_label }}"> {{ form.titulo.label }} </label>
+                                {{ form.titulo }}
+                                {{ form.titulo.errors }}
+                            </div>
+                            <div class="col-xl-2">
+                                <label for="{{ form.cep.id_for_label }}"> {{ form.cep.label }} </label>
+                                {{ form.cep }}
+                                {{ form.cep.errors }}
+                            </div>
+
+                            <div class="col-xl-10">
+                                <label for="{{ form.rua.id_for_label }}"> {{ form.rua.label }} </label>
+                                {{ form.rua }}
+                                {{ form.rua.errors }}
+                            </div>
+
+                            <div class="col-xl-5">
+                                <label for="{{ form.bairro.id_for_label }}"> {{ form.bairro.label }} </label>
+                                {{ form.bairro }}
+                                {{ form.bairro.errors }}
+                            </div>
+
+                            <div class="col-xl-5">
+                                <label for="{{ form.cidade.id_for_label }}"> {{ form.cidade.label }} </label>
+                                {{ form.cidade }}
+                                {{ form.cidade.errors }}
+                            </div>
+
+                            <div class="col-xl-2">
+                                <label for="{{ form.estado.id_for_label }}"> {{ form.estado.label }} </label>
+                                {{ form.estado }}
+                                {{ form.estado.errors }}
+                            </div>
+
+
+                            <div class="col-xl-4">
+                                <label for="{{ form.valor_aluguel.id_for_label }}"> {{ form.valor_aluguel.label }}
+                                </label>
+                                {{ form.valor_aluguel}}
+
+
+                                <span class="helptext">{{ form.valor_aluguel.help_text }}</span>
+
+                                {{ form.valor_aluguel.errors }}
+                            </div>
+
+                            <div class="col-xl-4">
+                                <label for="{{ form.paga_deposito.id_for_label }}"> {{ form.paga_deposito.label }}
+                                </label>
+                                {{ form.paga_deposito }}
+                            </div>
+                            <div class="col-xl-4">
+                                <label for="{{ form.valor_deposito.id_for_label }}"> {{ form.valor_deposito.label }}
+                                </label>
+                                {{ form.valor_deposito }}
+                                {{ form.valor_deposito.errors }}
+                            </div>
+
+                            <div class="col-xl-3">
+                                <label for="{{ form.paga_iptu.id_for_label }}"> {{ form.paga_iptu.label }}
+                                </label>
+                                {{ form.paga_iptu }}
+                                {{ form.paga_iptu.errors }}
+                            </div>
+
+                            <div class="col-xl-3">
+                                <label for="{{ form.valor_iptu.id_for_label }}"> {{ form.valor_iptu.label }}
+                                </label>
+                                {{ form.valor_iptu }}
+                                {{ form.valor_iptu.errors }}
+                            </div>
+
+                            <div class="col-xl-3">
+                                <label for="{{ form.paga_incendio.id_for_label }}"> {{ form.paga_incendio.label }}
+                                </label>
+                                {{ form.paga_incendio }}
+                                {{ form.paga_incendio.errors }}
+                            </div>
+
+                            <div class="col-xl-3">
+                                <label for="{{ form.valor_incendio.id_for_label }}"> {{ form.valor_incendio.label }}
+                                </label>
+                                {{ form.valor_incendio }}
+                                {{ form.valor_incendio.errors }}
+                            </div>
+
+                            <div class="col-xl-3">
+                                <label for="{{ form.paga_luz.id_for_label }}"> {{ form.paga_luz.label }}
+                                </label>
+                                {{ form.paga_luz }}
+                                {{ form.paga_luz.errors }}
+                            </div>
+
+                            <div class="col-xl-3">
+                                <label for="{{ form.paga_agua.id_for_label }}"> {{ form.paga_agua.label }}
+                                </label>
+                                {{ form.paga_agua }}
+                                {{ form.paga_agua.errors }}
+                            </div>
+
+                            <div class="col-xl-3">
+                                <label for="{{ form.qtd_quarto.id_for_label }}"> {{ form.qtd_quarto.label }}
+                                </label>
+                                {{ form.qtd_quarto }}
+                                {{ form.qtd_quarto.errors }}
+                            </div>
+
+                            <div class="col-xl-3">
+                                <label for="{{ form.qtd_banheiro.id_for_label }}"> {{ form.qtd_banheiro.label }}
+                                </label>
+                                {{ form.qtd_banheiro }}
+                                {{ form.qtd_banheiro.errors }}
+                            </div>
+
+                            <div class="col-xl-3">
+                                <label for="{{ form.qtd_vaga.id_for_label }}"> {{ form.qtd_vaga.label }}
+                                </label>
+                                {{ form.qtd_vaga }}
+                                {{ form.qtd_vaga.errors }}
+                            </div>
+
+                            <div class="col-xl-3">
+                                <label for="{{ form.idependente.id_for_label }}"> {{ form.idependente.label }}
+                                </label>
+                                {{ form.idependente }}
+                                {{ form.idependente.errors }}
+                            </div>
+
+                            <div class="col-xl-3">
+                                <label for="{{ form.aceita_pet.id_for_label }}"> {{ form.aceita_pet.label }}
+                                </label>
+                                {{ form.aceita_pet }}
+                                {{ form.aceita_pet.errors }}
+                            </div>
+                            <div class="col-xl-3">
+                                <label for="{{ form.aceita_crianca.id_for_label }}"> {{ form.aceita_crianca.label }}
+                                </label>
+                                {{ form.aceita_crianca }}
+                                {{ form.aceita_crianca.errors }}
+                            </div>
+
+                            <div class="col-xl-3">
+                                <label for="{{ form.comunidade.id_for_label }}"> {{ form.comunidade.label }}
+                                </label>
+                                {{ form.comunidade }}
+                                {{ form.comunidade.errors }}
+
+                            </div>
+
+                            <div class="col-xl-3">
+                                <label for="{{ form.comunidade_nome.id_for_label }}"> {{ form.comunidade_nome.label }}
+                                </label>
+                                {{ form.comunidade_nome }}
+                                {{ form.comunidade_nome.errors }}
+                            </div>
+
+                            <div class="col-xl-3">
+                                <label for="{{ form.tipo_teto.id_for_label }}"> {{ form.tipo_teto.label }}
+                                </label>
+                                {{ form.tipo_teto }}
+                                {{ form.tipo_teto.errors }}
+                            </div>
+
+                            <div class="col-xl-3">
+                                <label for="{{ form.disponivel.id_for_label }}"> {{ form.disponivel.label }}
+                                </label>
+                                {{ form.disponivel }}
+                                {{ form.disponivel.errors }}
+                            </div>
+
+                            <div class="col-xl-12">
+                                <label for="{{ form.descricao.id_for_label }}"> {{ form.descricao.label }}
+                                </label>
+                                {{ form.descricao }}
+                                {{ form.descricao.errors }}
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="card-footer items-margin">
+                        <button type="submit" class="btn btn-primary mb-3">Salvar anúncio</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-xl-3 w-100"></div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="{% static 'imoveis/js/jquery.mask.js' %}"></script>
+<script>
+    $('#cep').on('keyup', function () {
+        if ($('#cep').val().length === 9) {
+            var cep = $('#cep').val();
+            var url = 'https://viacep.com.br/ws/' + cep + '/json/';
+            var req = new XMLHttpRequest();
+            req.open('GET', url, false);
+            req.send(null);
+
+            if (req.status === 200) {
+                const data = JSON.parse(req.responseText);
+                $('#rua').val(data.logradouro);
+                $('#bairro').val(data.bairro);
+                $('#cidade').val(data.localidade);
+                $('#estado').val(data.uf);
+                $('#id_valor_aluguel').focus();
+            }
+        }
+    });
+</script>
+<script>
+    function submitForm(formID) {
+        var form = document.getElementById(formID)
+        form.submit();
+    }
+    function myFunction(imgs, formID) {
+        var expandImg = document.getElementById("expandedImg");
+        var imgText = document.getElementById("imgtext");
+        var btnDelete = document.getElementById("btnDelete")
+        btnDelete.setAttribute("onClick", "submitForm('" + formID + "');");
+        expandImg.src = imgs.src;
+        imgText.innerHTML = imgs.alt;
+        expandImg.parentElement.style.display = "block";
+    }
+</script>
+
+
+{% endblock %}

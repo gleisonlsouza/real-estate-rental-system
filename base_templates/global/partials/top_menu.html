@@ -1,0 +1,94 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-principal">
+    <div class="container-fluid ">
+        {% include 'global/partials/logo.html' %}
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home:home_index' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'home:home_index' %}#locador">Para o locador</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'home:home_index' %}#proprietario">Para o proprietário</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'home:home_index' %}#contato">Contato</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'home:home_index' %}#sobre">Sobre</a>
+                </li>                
+            </ul>
+
+            <div class="btn-group me-5">
+                {% if not user.is_authenticated %}
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fa-solid fa-user"></i>
+                    Login / Cadastro
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'users:users_login' %}">
+                        <i class="fa-solid fa-user primary-color"></i> 
+                        Login</a></li>
+                    <li><a class="dropdown-item" href="{% url 'users:users_register' %}">
+                        <i class="fa-solid fa-address-card primary-color"></i> 
+                        Cadastro</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="{% url 'home:home_index' %}#contato">
+                        <i class="fa-solid fa-circle-question primary-color"></i> 
+                        Ajuda</a></li>
+                </ul>
+                {% else %}
+                {% load alert_msgs %}
+                {%  alert_msgs request as qtdalert %} 
+                <a href="{% url 'users:users_dashboard' %}" class="btn btn-primary position-relative me-4">
+                    <i class="fa-solid fa-envelope"></i>
+                    {% if qtdalert > 0 %}
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      
+                      {{ qtdalert }}
+                      <span class="visually-hidden">Notificações</span>
+                     
+                    </span>
+                    {% endif %}
+                </a>
+
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fa-solid fa-user"></i>
+                    Minha conta
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'users:users_dashboard' %}">
+                        <i class="fa-solid fa-solar-panel primary-color"></i> Meu painel
+                    </a></li>
+                    <li><a class="dropdown-item" href="{% url 'users:dashboard_mensagens' %} ">
+                        <i class="fa-solid fa-envelope primary-color"></i> Mensagens</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <form action="{% url 'users:users_logout' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="username" value="{{ request.user.username }}">
+                            <button class="dropdown-item" type="submit">
+                                <i class="fa-solid fa-arrow-right-from-bracket primary-color"></i> 
+                                Sair
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

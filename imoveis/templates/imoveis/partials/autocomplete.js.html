@@ -1,0 +1,57 @@
+<script>
+    new Autocomplete('#autocompleteuf', {
+
+        search: input => {
+            console.log(input)
+            const url = {% url 'home:autocomplete' %}+ '?uf=' + input 
+            return new Promise(resolve => {
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        resolve(data.data)
+                    })
+            })
+    }
+    })
+
+    new Autocomplete('#autocompletecidade', {
+
+        search: input => {
+            console.log(input)
+            const url = {% url 'home:autocomplete' %}+ '?cidade=' + input
+            return new Promise(resolve => {
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        resolve(data.data)
+                    })
+            })
+        }
+    })
+
+    new Autocomplete('#autocompletebairro', {
+
+        search: input => {
+            console.log(input)
+            const url = {% url 'home:autocomplete' %}+ '?bairro=' + input
+            return new Promise(resolve => {
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        resolve(data.data)
+                    })
+            })
+        }
+    })
+
+    document.addEventListener("keydown", function (e) {
+        if (e.keyCode === 13) {
+
+            e.preventDefault();
+
+        }
+    });
+</script>

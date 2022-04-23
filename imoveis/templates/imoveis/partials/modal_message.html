@@ -1,0 +1,83 @@
+{% if request.user.id == imovel.propietario.id %}
+
+<div class="modal fade" id="msgpropietario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabelErro">Erro!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Olá! <strong>{{ request.user.first_name }}</strong> </p>
+        <p>Este anúncio é seu, você não pode enviar mensagem para você mesmo.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% else %}
+
+{% if request.user.is_authenticated %}
+<div class="modal fade" id="msgpropietario" tabindex="-1" aria-labelledby="Mensagem para o propietário"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabelMensagem">Nova mensagem</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <form action="{% url 'mensagem:send_msg' %}" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <input type="hidden" name="locador" id="locador" value="{{ request.user.id }}">
+          <input type="hidden" name="propietario" id="propietario" value="{{ imovel.propietario.id }}">
+          <input type="hidden" name="imovel_id" id="imovel_id" value="{{ imovel.id }}">
+          <input type="hidden" name="autor" id="autor" value="{{ request.user.id }}">
+          <input type="hidden" name="destinatario" id="destinatario" value="{{ imovel.propietario.id }}">
+          <div class="mb-3">
+            <label for="assunto" class="col-form-label">Assunto</label>
+            <input type="text" class="form-control" id="titulo" name="titulo" value="Vamos fechar negócio?">
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Mensagem:</label>
+            <textarea class="form-control" id="mensagem" name="mensagem" ></textarea>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+          <button type="submit" class="btn btn-primary">Enviar mensagem</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% else %}
+
+<!-- Modal -->
+<div class="modal fade" id="msgpropietario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabelAviso">Efetue Login/Cadastro</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Olá! Para enviar uma mensagem para o propietário você precisa estar logado. </p>
+        <p>Efetue seu login clicando no botão Login, caso ainda não tenha se cadastrado, click no botão Cadastro.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        <a href="{% url 'users:users_register' %}"  class="btn btn-primary">Cadastro</a>
+        <a href="{% url 'users:users_login' %}?next={{ request.get_full_path }}"  class="btn btn-primary">Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endif %}
+{% endif %}

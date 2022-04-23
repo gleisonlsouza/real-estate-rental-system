@@ -1,0 +1,259 @@
+{% extends 'global/pages/base.html' %}
+{% block title %} Início {% endblock %}
+
+{% block ogimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block ogtitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock %}
+{% block ogurl %} {{ request.META.HTTP_HOST }}{{ request.get_full_path }} {% endblock %}
+{% block ogdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block metaimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block cmtitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock %}
+{% block cmurl %} {{ request.META.HTTP_HOST }}{{ request.get_full_path }} {% endblock %}
+{% block cmdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block ttimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block tttitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock%}
+{% block tturl %} {{ request.META.HTTP_HOST }}{{ request.get_full_path }} {% endblock %}
+{% block ttdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" />
+
+<div class="landing-page main-bg" id="home">
+    {% include 'global/partials/top_menu.html' %}
+    <div class="col-xl-12 min-hight-100 position-relative">
+        <div class="row">
+            <div class="col-xl-4">
+
+            </div>
+            <div class="col-xl-4 text-center">
+                <div class="col-xl-12 pt-3 top-logo">
+                    <img src="static/home/images/logotop.png" class="img-fluid" alt="Top Logo">
+                </div>
+                <div class="card card-imovel ">
+                    <div class="card-header main-bg card-title text-center">
+                        <h1>Procurar imóveis</h1>
+                        <div class="text-center">
+                            <h3>Encontre aqui o seu novo lar</h3>
+                        </div>
+                    </div>
+
+
+                    <form id="fompesquisa" action="{% url 'imoveis:imoveis_view_list' %}" method="GET"
+                        enctype='multipart/form-data'>
+                        <div class="card-body items-margin ">
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <label for="quartos" class="form-label primary-font">
+                                        <i class="fa-solid fa-bed primary-color fs-2 pe-1"></i>
+                                        Quartos</label>
+                                    <select class="form-select" aria-label="Quantidade de quartos" id="quartos"
+                                        name="quartos">
+                                        <option value="" selected>Todos</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                </div>
+                                <div class="col-xl-4">
+                                    <label for="maxaluguel" class="form-label primary-font">
+                                        <i class="fa-solid fa-sack-dollar primary-color fs-2 pe-1"></i>
+                                        Valor até</label>
+                                    <select class="form-select" aria-label="Valor do aluguel até" id="maxaluguel"
+                                        name="maxaluguel">
+                                        <option value="1000" selected>R$ 1.000,00</option>
+                                        <option value="900">R$ 900,00</option>
+                                        <option value="800">R$ 800,00</option>
+                                        <option value="700">R$ 700,00</option>
+                                        <option value="600">R$ 600,00</option>
+                                        <option value="500">R$ 500,00</option>
+                                        <option value="400">R$ 400,00</option>
+                                        <option value="300">R$ 300,00</option>
+                                    </select>
+                                </div>
+                                <div class="col-xl-4">
+                                    <div id="autocompleteuf" class="autocomplete">
+                                        <label for="uf" class="form-label primary-font">
+                                            <i class="fa-solid fa-location-dot primary-color fs-2 pe-1"></i>
+                                            UF</label>
+                                        <input class="form-control text-uppercase" name="uf" id="uf"
+                                            placeholder="Ex.: RJ" maxlength="2" aria-label="Selecionar estado" />
+                                        <ul class="autocomplete-result-list"></ul>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div id="autocompletecidade" class="autocomplete">
+                                        <label for="cidade" class="form-label primary-font">
+                                            <i class="fa-solid fa-location-dot primary-color fs-2 pe-1"></i>
+                                            Cidade</label>
+                                        <input type="text" class="form-control " name="cidade" id="cidade"
+                                            placeholder="Ex.: Duque de Caxias" />
+                                        <ul class="autocomplete-result-list"></ul>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div id="autocompletebairro" class="autocomplete">
+                                        <label for="bairro" class="form-label primary-font">
+                                            <i class="fa-solid fa-location-dot primary-color fs-2 pe-1"></i>
+                                            Bairro</label>
+                                        <input type="text" class="form-control " name="bairro" id="bairro"
+                                            placeholder="Ex.: Pilar" />
+                                        <ul class="autocomplete-result-list"></ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="card-footer items-margin">
+                            <button type="submit" class="btn btn-primary mb-3">Procurar imóveis</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-xl-4 w-100"></div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<div class="landing-page  middle-bg" id="locador">
+    <div class="main-content grid-content">
+        <h2 class="grid-title">Como alugar uma casa?</h2>
+        <p class="grid-description">Veja abaixo como é fácil e rápido</p>
+        <div class="grid">
+            <article>
+                <h3>Crie uma conta gratuitamente</h3>
+                <p>Antes de tudo é interessante que faça o seu <a href="{% url 'users:users_register' %}">cadastro no
+                        Aluguel de Pobre.</a>
+                    É possível pesquisar por imóveis sem ter um cadastro, mas com um cadastro fica muito mais
+                    prático alugar o imóvel que você tanto procura.
+                </p>
+            </article>
+            <article>
+                <h3>Pesquise o imóvel que deseja</h3>
+                <p>Agora que você já realizou seu cadastro, basta pesquisar pelo imóvel que deseja, comece pesquisando
+                    imóveis na região que deseja residir.
+                    Calma que tem mais, após pesquisar você poderá filtrar para encontrar um imóvel do jeitinho que você
+                    quer.
+                </p>
+            </article>
+            <article>
+                <h3>Hora de fechar negócio!</h3>
+                <p>Agora que você encontrou o seu imóvel, é hora de entrar em contato com o proprietário para ajustar os
+                    detalhes e fechar negócio.
+                    Boa sorte e até a próxima.</p>
+            </article>
+        </div>
+    </div>
+</div>
+
+<div class="landing-page main-bg" id="proprietario">
+    <div class="main-content grid-content grid-proprietario">
+        <h2 class="grid-title">Como anunciar meu imóvel?</h2>
+        <p class="grid-description">Veja abaixo como é fácil anunciar gratuitamente seu imóvel</p>
+        <div class="grid">
+            <article>
+                <h3>Crie uma conta gratuitamente</h3>
+                <p>Antes de tudo é interessante que faça o seu <a href="{% url 'users:users_register' %}">cadastro no
+                        Aluguel de Pobre.</a>
+                    É possível pesquiser por imóveis sem ter um cadastro, porém não é possível anunciar nem contactar um
+                    proprietário sem estar devidamente cadastrado
+                </p>
+            </article>
+            <article>
+                <h3>Anunciando o imóvel</h3>
+                <p>Agora que você já realizou seu cadastro, basta ir para seu painel, clicar em <b> Meus Imóveis
+                    </b> e em seguida <b> Cadastrar Novo </b>
+                </p>
+            </article>
+            <article>
+                <h3>Hora de fechar negócio!</h3>
+                <p>Agora que você já cadastrou seus imóveis é só aguardar, quando houver um interessado você receberá
+                    uma mensagem que poderá ser vista no seu <b>Painel do Usuário.</b>
+                    Você também poderá compartilhar o link do anúncio com amigos, colegas, familiáres e nas redes
+                    sociais.</p>
+            </article>
+        </div>
+    </div>
+</div>
+
+<div class="landing-page  middle-bg" id="contato">
+    <div class="main-content grid-content">
+        <h2 class="grid-title">Contato</h2>
+        <p>Preencha o formulário abaixo para nos enviar uma mensagem</p>
+        <div class="col-xl-12 mt-2 me-1 ms-1">
+            {% include 'global/partials/messages.html' %}
+            <form action="{% url 'mensagem:email_contato' %}" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-xl-6">
+                        <label for="{{ form.nome.id_for_label }}">{{ form.nome.label }}</label>
+                        {{ form.nome }}
+                        {{ form.nome.errors }}
+                    </div>
+                    <div class="col-xl-6 ">
+                        <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                    </div>
+                    <div class="col-xl-12 mt-2">
+                        <label for="{{ form.assunto.id_for_label }}">{{ form.assunto.label }}</label>
+                        {{ form.assunto }}
+                        {{ form.assunto.errors }}
+                    </div>
+                    <div class="col-xl-12 mt-2">
+                        <label for="{{ form.mensagem.id_for_label }}">{{ form.mensagem.label }}</label>
+                        {{ form.mensagem }}
+                        {{ form.mensagem.errors }}
+                    </div>
+                    <div class="col-xl-12 mt-2">
+                        <button class="btn btn-primary w-100" type="submit"> Enviar </button>
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="landing-page main-bg" id="sobre">
+    <div class="main-content grid-content grid-proprietario">
+        <h2 class="grid-title">Sobre nós</h2>
+        <p class="grid-description">Saiba um pouco mais sobre o Aluguel de Pobre</p>
+        <div class="div-xl-12">
+            <p>A idéia do Aluguel de Pobre surgiu após notar as perguntas típicas feitas em redes sociais a procura de
+                imóveis baratos em bairros de classe média.
+                A maioria dos sites de alugueis são voltados para imóveis devidamente regularizados, imóveis com
+                contrato de longos meses, porém nós da classe média estamos acostumados a
+                alugar casa com contrato de "boca" ou como também é conhecido "contrato de gaveta".
+            </p>
+
+            <p>Mas e o nome Aluguel de Pobre?</p>
+            <p>O nome do site foi estrategicamente pensado para causar um burburinho, é fácil de fixar, é sugestivo,
+                pode virar assunto na roda de amigos ainda que como "zueira", mas que com
+                certeza ao pensarem em alugar uma casa boa e barata logo virá em mente o nome Aluguel de Pobre, isso
+                facilitará a divulgação boca a boca.</p>
+
+            <p>Sabemos que um aluguel popular geralmente é tratado direto com o proprietário (senhorio) e que não tem lá
+                muita burocracia, alguns cobram um depósito que é um tipo de garantia caso haja
+                alguma avaria na residência após a saída do inquilino, ou se por ventura o inquilino ficar desempregado,
+                ou se resolver deixar o imóvel, assim ainda terá alguns meses já pagos, além disso
+                sabemos que não existe sites de alugueis que aceitem casas em comunidades, já em nossa plataforma é
+                possível você cadastrar um imóvel e informar o nome da comunidade. Juntando todos esses
+                quesitos resolvi desenvolver essa plataforma simples e eficaz que ajudará tanto quem está a procurar de
+                aluguel barato quanto quem está a procura de divulgar seus imóveis.
+            </p>
+
+        </div>
+    </div>
+</div>
+
+<a class="back-to-top" href="#"><i class="fa-solid fa-circle-arrow-up"></i></a>
+
+<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+{% include 'home/partials/autocomplete.js.html' %}
+
+{%endblock%}

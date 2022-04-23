@@ -1,0 +1,143 @@
+{% extends 'global/pages/base.html' %}
+{% block title %} Login {% endblock %}
+
+{% block ogimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block ogtitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock %}
+{% block ogurl %} {{ request.META.HTTP_HOST }}{{ request.get_full_path }} {% endblock %}
+{% block ogdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block metaimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block cmtitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock %}
+{% block cmurl %} {{ request.META.HTTP_HOST }}{{ request.get_full_path }} {% endblock %}
+{% block cmdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block ttimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block tttitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock%}
+{% block tturl %} {{ request.META.HTTP_HOST }}{{ request.get_full_path }} {% endblock %}
+{% block ttdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block content %}
+
+
+<div class="landing-page main-bg" id="home">
+    {% include 'global/partials/top_menu.html' %}
+    <div class="col-xl-12 min-hight-100 position-relative">
+        <div class="row ">
+            <div class="col-xl-4 w-100"></div>
+            <div class="col-xl-4 div-card-center ">
+                <div class="card card-imovel ">
+                    <div class="card-header main-bg card-title text-center">
+                        <h1>Login</h1>
+                        <div class="text-center">
+                            <h3>Faça login com seu email/senha</h3>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'message-error' %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Atenção!</strong>
+                            <p>{{ message }}</p>
+                            <button type="button" class="btn-close align-right" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+                        {% if message.tags == 'message-success' %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Tudo Certo!!</strong>
+                            <p>{{ message }}</p>
+                            <button type="button" class="btn-close align-right" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    {% if not user.is_authenticated %}
+                    <form id="login" action="{% url 'users:users_login' %}" method="POST">
+                        <input type="hidden" name="next" value="{{ request.GET.next }}" />
+                        {% csrf_token %}
+                        <div class="card-body items-margin ">
+
+                            <div class="row">
+
+                                <div class="col-xl-2 "></div>
+                                <div class="col-xl-8">
+                                    <label for="username" class="form-label">Usuário</label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="fa-solid fa-user primary-color"></i>
+                                        </span>
+                                        {{ form.username }}
+                                    </div>
+                                    <label for="password" class="form-label">Senha</label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon2">
+                                            <i class="fa-solid fa-key primary-color"></i>
+                                        </span>
+                                        {{ form.password }}
+                                    </div>
+                                    <div class="input-group mb3">
+                                        <div class="col-xl-12 mt-2 text-center">
+                                            {% include 'users/partials/recaptcha.html' %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 "></div>
+
+                            </div>
+                        </div>
+                        <div class="card-footer items-margin">
+                            <div class="row">
+                                <div class="col"><a href="{% url 'users:users_passrecovery' %}"
+                                        class="btn btn-primary mb-3">Recuperar</a>
+                                </div>
+                                <div class="col"><a href="{% url 'users:users_register' %}"
+                                        class="btn btn-primary mb-3">Cadastrar</a>
+                                </div>
+                                <div class="col"><button type="submit" class="btn btn-primary mb-3">Entrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    {% else %}
+                    <div class="card-body">
+                        <div class="alert alert-info" role="alert">
+                            <h4 class="alert-heading">Olá! {{ user.first_name }}</h4>
+                            <p>Você já está logado como <strong>{{ user.username }}</strong></p>
+                            <hr>
+                            <p class="mb-0">O que você gostaria de fazer? </p>
+                        </div>
+                    </div>
+                    <div class="card-footer items-margin">
+                        <form action="{% url 'users:users_logout' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col">
+                                    <a href="{% url 'users:users_dashboard' %}" type="button"
+                                        class="btn btn-primary mb-3">Meu painel</a>
+                                </div>
+                                <input type="hidden" name="username" value="{{ request.user.username }}">
+                                <div class="col"><button type="submit" class="btn btn-primary mb-3">Sair</button>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-xl-4 w-100"></div>
+        </div>
+
+    </div>
+</div>
+
+</div>
+
+
+
+
+
+
+{%endblock%}

@@ -1,0 +1,32 @@
+<!-- Modal -->
+<div class="modal fade" id="confirm_{{ imovel.id }}" tabindex="-1" aria-labelledby="Janela de confirmação"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Confirmar exclusão</h5>
+            </div>
+            <div class="modal-body">
+                <p>Você está prestes a excluir o imóvel <strong>{{ imovel.id }}</strong> uma vez excluído não poderá ser
+                    desfeito.</p>
+                <p><strong>Tem certeza que deseja excluir ?</strong></p>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+
+                    <div class="col">
+                        <form action="{% url 'users:users_delete_imovel' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="imovelid" value="{{ imovel.id }}">
+                            <button class="btn btn-danger" type="submit">Excluir</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,427 @@
+{% extends 'global/pages/base.html' %}
+{% load static %}
+{% block title %} Busca Imóveis {% endblock %}
+
+{% block ogimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block ogtitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock %}
+{% block ogurl %} {{ request.META.HTTP_HOST }}{{ request.get_full_path }} {% endblock %}
+{% block ogdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block metaimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block cmtitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock %}
+{% block cmurl %} {{ request.META.HTTP_HOST }}{{ request.get_full_path }} {% endblock %}
+{% block cmdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block ttimg %} https://alugueldepobre.com.br/media/logo/metalogo.jpg {% endblock %}
+{% block tttitle %} Alugue e anuncie GRÁTIS! - Aluguel de Pobre {% endblock%}
+{% block tturl %} {{ request.META.HTTP_HOST }}{{ request.get_full_path }} {% endblock %}
+{% block ttdescription %} O melhor site de aluguel popular {% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" />
+
+
+<div class="main-bg min-hight-100">
+    <div class="col-xl-3 div-side-menu">
+
+        <section class="side-menu">
+            <h2>{% include 'imoveis/partials/logo.html' %}</h2>
+            <hr class="dropdown-divider">
+            <div class="col-xl-12">
+                {% if messages %}
+                {% for message in messages %}
+                {% if message.tags == 'message-error' %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Atenção!</strong>
+                    <p>{{ message }}</p>
+                    <button type="button" class="btn-close align-right" data-bs-dismiss="alert"
+                        aria-label="Close"></button>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div class="side-menu-options ">
+                <!-- Exibe as mensagens caso exista alguma -->
+
+                <!-- Fim das mensagens -->
+
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapse-filtro" aria-expanded="false"><i class="fa-solid fa-sliders">
+                    </i> Filtros</button>
+            </div>
+            <hr class="dropdown-divider">
+            <div class="collapse" id="collapse-filtro">
+
+                <div class="side-menu-options">
+                    <button class="btn btn-primary btn-filter" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse-localizacao" aria-expanded="false"><i
+                            class="fa-solid fa-map-location-dot"></i>
+                        Localização</button>
+                </div>
+                <form>
+                    <div class="collapse" id="collapse-localizacao">
+
+                        <div class="side-menu-options">
+                            <div id="autocompleteuf" class="autocomplete">
+                                <label for="uf" class="form-label">
+                                    <i class="fa-solid fa-location-dot primary-color"></i>
+                                    UF</label>
+                                {{form.uf}}
+                                <ul class="autocomplete-result-list"></ul>
+                            </div>
+                        </div>
+                        <div class="side-menu-options">
+                            <div id="autocompletecidade" class="autocomplete">
+                                <label for="cidade" class="form-label">
+                                    <i class="fa-solid fa-location-dot primary-color"></i>
+                                    Cidade</label>
+                                {{form.cidade}}
+                                <ul class="autocomplete-result-list"></ul>
+                            </div>
+                        </div>
+                        <div class="side-menu-options">
+                            <div id="autocompletebairro" class="autocomplete">
+                                <label for="bairro" class="form-label">
+                                    <i class="fa-solid fa-location-dot primary-color"></i>
+                                    Bairro</label>
+                                {{form.bairro}}
+                                <ul class="autocomplete-result-list"></ul>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="side-menu-options">
+                        <button class="btn btn-primary btn-filter" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse-preco" aria-expanded="false"><i
+                                class="fa-solid fa-sack-dollar"></i> Faixa de preço</button>
+                    </div>
+                    <div class="collapse" id="collapse-preco">
+                        <div class="side-menu-options row">
+                            <div class="col-xl-6">
+                                <label for="minaluguel">
+                                    <i class="fa-solid fa-filter-circle-dollar primary-color"></i>
+                                    De</label>
+                                {{ form.minaluguel }}
+                                {{ form.minaluguel.error }}
+                            </div>
+                            <div class="col-xl-6">
+                                <label for="maxaluguel">
+                                    <i class="fa-solid fa-filter-circle-dollar primary-color"></i>
+                                    Até</label>
+                                {{ form.maxaluguel }}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="side-menu-options">
+                        <button class="btn btn-primary btn-filter" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse-taxa" aria-expanded="false"><i
+                                class="fa-solid fa-file-invoice-dollar"></i> Taxas adicionais</button>
+                    </div>
+                    <div class="collapse" id="collapse-taxa">
+                        <div class="side-menu-options row">
+                            <div class="col-xl-4">
+                                <label for="deposito">
+                                    <i class="fa-solid fa-circle-dollar-to-slot primary-color"></i>
+                                    Depósito</label>
+                                {{ form.deposito }}
+                            </div>
+                            <div class="col-xl-3">
+                                <label for="iptu">
+                                    <i class="fa-solid fa-file-invoice-dollar primary-color"></i>
+                                    IPTU</label>
+                                {{ form.iptu }}
+                            </div>
+                            <div class="col-xl-5">
+                                <label for="incendio">
+                                    <i class="fa-solid fa-house-fire primary-color"></i>
+                                    Taxa incêndio</label>
+                                {{ form.incendio }}
+                            </div>
+                        </div>
+
+                        <div class="side-menu-options row">
+                            <div class="col-xl-6">
+                                <label for="agua">
+                                    <i class="fa-solid fa-faucet-drip primary-color"></i>
+                                    Paga água?</label>
+                                {{ form.agua }}
+                            </div>
+                            <div class="col-xl-6">
+                                <label for="luz">
+                                    <i class="fa-solid fa-lightbulb primary-color"></i>
+                                    Paga luz?</label>
+                                {{ form.luz }}
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="side-menu-options">
+                        <button class="btn btn-primary btn-filter" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse-dependencia" aria-expanded="false"><i
+                                class="fa-solid fa-house-circle-check"></i>
+                            Depedências do imóvel</button>
+                    </div>
+                    <div class="collapse" id="collapse-dependencia">
+                        <div class="side-menu-options row">
+                            <div class="col-xl-6">
+                                <label for="quartos">
+                                    <i class="fa-solid fa-bed primary-color"></i>
+                                    Qtd. Quartos</label>
+                                {{ form.quartos }}
+                            </div>
+                            <div class="col-xl-6">
+                                <label for="banheiros">
+                                    <i class="fa-solid fa-shower primary-color"></i>
+                                    Qtd. Banheiros</label>
+                                {{ form.banheiros }}
+                            </div>
+                        </div>
+                        <div class="side-menu-options row">
+                            <div class="col-xl-6">
+                                <label for="vagas">
+                                    <i class="fa-solid fa-car primary-color"></i>
+                                    Vagas Garagem</label>
+                                {{ form.vagas }}
+                            </div>
+                            <div class="col-xl-6">
+                                <label for="independente">
+                                    <i class="fa-solid fa-people-roof primary-color"></i>
+                                    Idependente?</label>
+                                {{ form.independente }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="side-menu-options">
+                        <button class="btn btn-primary btn-filter" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse-restricoes" aria-expanded="false"><i class="fa-solid fa-paw"></i>
+                            Restrições</button>
+                    </div>
+                    <div class="collapse" id="collapse-restricoes">
+                        <div class="side-menu-options row">
+                            <div class="col-xl-6">
+                                <label for="pet">
+                                    <i class="fa-solid fa-paw primary-color"></i>
+                                    Aceita pet?</label>
+                                {{ form.pet }}
+                            </div>
+                            <div class="col-xl-6">
+                                <label for="crianca">
+                                    <i class="fa-solid fa-baby-carriage primary-color"></i>
+                                    Aceita criança?</label>
+                                {{ form.crianca }}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="side-menu-options">
+                        <button class="btn btn-primary btn-filter" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse-outros" aria-expanded="false"><i
+                                class="fa-solid fa-circle-info"></i> Outras
+                            informações</button>
+                    </div>
+                    <div class="collapse" id="collapse-outros">
+                        <div class="side-menu-options row">
+                            <div class="col-xl-6">
+                                <label for="comunidade">
+                                    <i class="fa-solid fa-house primary-color"></i>
+                                    É comunidade?</label>
+                                {{ form.comunidade }}
+                            </div>
+                            <div class="col-xl-6">
+                                <label for="teto">
+                                    <i class="fa-solid fa-circle-info primary-color"></i>
+                                    Teto da casa</label>
+                                {{ form.teto }}
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="dropdown-divider">
+                    <div class="side-menu-options row">
+                        <div class="col-xl-6">
+                            <a href="{% url 'imoveis:imoveis_view_list' %}" role="button" class="btn btn-danger mt-2"><i
+                                    class="fa-solid fa-trash-can"></i> Limpar</a>
+                        </div>
+                        <div class="col-xl-6">
+                            <button type="submit" class="btn btn-primary ">
+                                <i class="fa-solid fa-filter"></i> Filtrar</button>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+        </section>
+    </div>
+    <div class="row">
+        <div class="col-xl-3 ">
+
+        </div>
+        <div class="col-xl-9">
+
+            <div class="main-content imoveis-list min-hight-100">
+                <div class="row">
+                    {% for imovel in imoveis %}
+                    <div class="col-xl-4">
+                        <div class="card div-card-list">
+                            <div class="card-header imovel-list-foto">
+                                <div id="carouselID{{ imovel.id }}" class="carousel slide" data-bs-interval="false"
+                                    style="height:100%;">
+                                    <div class="carousel-inner" style="height:100%;">
+                                        {% for foto in imovel.imoveisfotos.all %}
+                                        <div class="carousel-item {% if  forloop.counter  == 1 %} active {% endif %}"
+                                            style="height:100%;">
+                                            <img src="{{ foto.foto.url }}" class="d-block w-100"
+                                                alt="Foto {{ forloop.counter}} do imóvel {{ imovel.titulo }}">
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <button class="carousel-control-prev" type="button"
+                                        data-bs-target="#carouselID{{ imovel.id }}" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Voltar</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button"
+                                        data-bs-target="#carouselID{{ imovel.id }}" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Avançar</span>
+                                    </button>
+                                </div>
+
+                            </div>
+                            <div class="card-body card-imoveis-list">
+                                <div class="center div-max-title">
+                                    <h5>{{ imovel.titulo }}</h5>
+                                </div>
+
+                                <div class="column-div-2">
+                                    <div>
+                                        <div class="center">
+                                            <i class="fa-solid fa-sack-dollar"></i>
+                                        </div>
+
+                                        <div class="center">
+                                            <p>R$ {{ imovel.valor_aluguel }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="center">
+                                            <i class="fa-solid fa-bed"></i>
+                                        </div>
+
+                                        <div class="center">
+                                            <p>{{ imovel.qtd_quarto }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="column-div-4">
+                                    <div>
+                                        <div class="center">
+                                            <i class="fa-solid fa-shower"></i>
+                                        </div>
+
+                                        <div class="center">
+                                            <p>{{ imovel.qtd_banheiro }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div
+                                            class="center {% if imovel.qtd_vaga < 1 %} acept-red {% else %} acept-green {% endif %}">
+                                            <i class="fa-solid fa-car"></i>
+                                        </div>
+
+                                        <div class="center ">
+                                            {% if imovel.qtd_vaga < 1 %} <p>Sem vaga</p>
+                                                {% else %}
+                                                <p>{{ imovel.qtd_vaga }}</p>
+                                                {% endif %}
+
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div
+                                            class="center {% if imovel.aceita_crianca == 'nao' %} acept-red {% else %} acept-green {% endif %}">
+                                            <i class="fa-solid fa-baby-carriage"></i>
+                                        </div>
+
+                                        <div class="center ">
+                                            {% if imovel.aceita_crianca == 'nao' %}
+                                            <p>Não aceita</p>
+                                            {% else %}
+                                            <p>Aceita</p>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div
+                                            class="center {% if imovel.aceita_pet == 'nao' %} acept-red {% else %} acept-green {% endif %}">
+                                            <i class="fa-solid fa-paw"></i>
+                                        </div>
+
+                                        <div class="center ">
+                                            {% if imovel.aceita_pet == 'nao' %}
+                                            <p>Não ceita</p>
+                                            {% else %}
+                                            <p>Aceita</p>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-footer div-card-list-footer text-center">
+                                <p><i class="fa-solid fa-location-dot"></i>
+                                    {{ imovel.bairro }},{{ imovel.cidade }}-{{ imovel.estado }}
+                                </p>
+
+                            </div>
+                            <div class="card-footer div-card-list-footer">
+                                <a href="{% url 'imoveis:imoveis_view_detail' imovel.id %}"
+                                    class="btn btn-outline-primary" role="button">Ver mais detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-xl-12">
+                        <div class="alert alert-danger alert-dismissible mt-3 ms-3 me-3" role="alert">
+                            <h4 class="alert-heading">Ops!</h4>
+                            <p>Parece que não conseguimos encontrar um imóvel como você deseja</p>
+                            <hr>
+                            <p class="mb-0">Mas não desanime, use o filtro para refinar sua pesquisa</p>
+                            <button type="button" class="btn-close align-right" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="menu-spacing"></div>
+
+            {% include 'imoveis/partials/pagination.html' %}
+
+        </div>
+    </div>
+
+</div>
+
+<script src="{% static 'imoveis/js/collapse_filter.js' %}"></script>
+
+<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+
+{% include 'imoveis/partials/autocomplete.js.html' %}
+
+
+
+
+{% endblock %}

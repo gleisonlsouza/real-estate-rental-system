@@ -1,0 +1,46 @@
+<form id="register" action="{% url 'users:users_edit' %}" method="POST">
+    {% csrf_token %}
+    <div class="card-body items-margin ">
+        <div class="row">
+            <div class="col-xl-6">
+                <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                {{ form.first_name }}
+                {{ form.first_name.errors }}
+            </div>
+            <div class="col-xl-6">
+                <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                {{ form.last_name }}
+                {{ form.last_name.errors }}
+            </div>
+            <div class="col-xl-6">
+                <label for="{{ form.celular.id_for_label }}">{{ form.celular.label }}</label>
+                {{ form.celular }}
+                {{ form.celular.errors }}
+            </div>
+            <div class="col-xl-6">
+                <label for="{{ form.tipo_usuario.id_for_label }}">{{ form.tipo_usuario.label }}</label>
+                {{ form.tipo_usuario }}
+                {{ form.tipo_usuario.errors }}
+            </div>
+        </div>
+    </div>
+    <div class="card-footer items-margin">
+        <div class="row">
+            <div class="col">
+                <button type="reset" class="btn btn-primary mb-3">Limpar</button>
+            </div>                                
+            <div class="col"><button type="submit" class="btn btn-primary mb-3">Salvar</button>
+            </div>
+        </div>
+    </div>
+</form>
+{% load static %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="{% static 'users/js/jquery.mask.js' %}"></script>
+
+<script>
+
+    $("#id_celular").mask("(00) 00000-0000");
+
+</script>

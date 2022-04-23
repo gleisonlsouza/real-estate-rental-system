@@ -1,0 +1,166 @@
+<div class="accordion" id="accordionImoveis">
+    {% for imovel in imoveis %}
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading{{ imovel.id }}">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse{{ imovel.id }}"
+                aria-expanded="{% if forloop.counter == 1 %} true {% else %} false {% endif %}"
+                aria-controls="collapse{{ imovel.id }}">
+                {{ imovel.titulo }} #{{ imovel.id }}
+                ({% if imovel.disponivel == 'sim'%} Disponível {% else %} Indisponível {% endif %})
+            </button>
+        </h2>
+        {% include 'users/partials/modal_confirm.html' %}
+        <div id="collapse{{ imovel.id }}"
+            class="accordion-collapse collapse {% if forloop.counter == 1 %} show {% endif %}"
+            aria-labelledby="heading{{ imovel.id }}" data-bs-parent="#accordionImoveis">
+            <div class="accordion-body">
+
+                <div class="row">
+                    <div class="col-xl-6">
+                        <h4><strong>Localização:</strong></h4>
+                        <p>{{ imovel.rua }},{{ imovel.bairro }} - {{ imovel.cidade }}</p>
+                    </div>
+                    <div class="col-xl-6">
+                        <h4><strong>Valor do aluguel:</strong></h4>
+                        <p>R$ {{ imovel.valor_aluguel }}</p>
+                    </div>
+                    <div class="col-xl-6">
+                        <h4><strong>Taxas adicionais:</strong></h4>
+                        <ul>
+                            {% if imovel.paga_deposito == 'sim' %}
+                            <li>
+                                <p>Depósito - R$ {{ imovel.valor_deposito}} </p>
+                            </li>
+                            {% endif %}
+
+                            {% if imovel.paga_iptu == 'sim' %}
+                            <li>
+                                <p>IPTU - R$ {{ imovel.valor_iptu}} </p>
+                            </li>
+                            {% endif %}
+
+                            {% if imovel.paga_incendio == 'sim' %}
+                            <li>
+                                <p>Tax. Incêndio - R$ {{ imovel.valor_incendio}} </p>
+                            </li>
+                            {% endif %}
+
+                            {% if imovel.paga_agua == 'sim' %}
+                            <li>
+                                <p>Paga água - Sim </p>
+                            </li>
+                            {% else %}
+                            <li>
+                                <p>Paga água - Não </p>
+                            </li>
+                            {% endif %}
+
+                            {% if imovel.paga_luz == 'sim' %}
+                            <li>
+                                <p>Paga luz - Sim </p>
+                            </li>
+                            {% else %}
+                            <li>
+                                <p>Paga luz - Não </p>
+                            </li>
+                            {% endif %}
+
+                        </ul>
+                    </div>
+                    <div class="col-xl-6">
+                        <h4><strong>Dependências do imóvel:</strong></h4>
+                        <ul>
+                            <li>
+                                <p>Quartos - {{ imovel.qtd_quarto }}</p>
+                            </li>
+
+                            <li>
+                                <p>Banheiros - {{ imovel.qtd_banheiro }}</p>
+                            </li>
+
+                            <li>
+                                <p>Vagas - {{ imovel.qtd_vaga }}</p>
+                            </li>
+
+                            {% if imovel.idependente == 'sim' %}
+                            <li>
+                                <p>Independente- Sim </p>
+                            </li>
+                            {% else %}
+                            <li>
+                                <p>Independente - Não </p>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="col-xl-6">
+                        <h4><strong>Restrições:</strong></h4>
+                        <ul>
+                            {% if imovel.aceita_pet == 'sim' %}
+                            <li>
+                                <p>Aceita pet - Sim </p>
+                            </li>
+                            {% else %}
+                            <li>
+                                <p>Aceita pet - Não </p>
+                            </li>
+                            {% endif %}
+
+                            {% if imovel.aceita_crianca == 'sim' %}
+                            <li>
+                                <p>Aceita criança - Sim </p>
+                            </li>
+                            {% else %}
+                            <li>
+                                <p>Aceita criança - Não </p>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <h4><strong>Outras informações:</strong></h4>
+                        <ul>
+                            {% if imovel.comunidade == 'sim' %}
+                            <li>
+                                <p>É comunidade - Sim ({{ imovel.comunidade_nome }}) </p>
+                            </li>
+                            {% else %}
+                            <li>
+                                <p>É comunidade - Não </p>
+                            </li>
+                            {% endif %}
+
+                            <li>
+                                <p>Tippo do teto - {{ imovel.tipo_teto }}</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-xl-12 d-flex flex-row-reverse bd-highlight ">
+
+                        <div class="p-3 bd-highlight">
+                            <a href="{% url 'imoveis:imoveis_view_detail' imovel.id %}"><i
+                                    class="fa-solid fa-eye primary-color fs-1"></i></a>
+                        </div>
+                        <div class="p-3 bd-highlight">
+                            <a href="{% url 'imoveis:imoveis_edit' imovel.id %}"><i
+                                    class="fa-solid fa-pen-to-square primary-color fs-1"></i></a>
+                        </div>
+                        <div class="p-3 bd-highlight acept-red">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#confirm_{{ imovel.id }}">
+                                <i class="fa-solid fa-trash-can primary-color fs-1"></i>
+                            </a>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>

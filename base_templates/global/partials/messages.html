@@ -1,0 +1,22 @@
+<div class="col-xl-12 p-2">
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'message-error' %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Atenção!</strong>
+        <p>{{ message }}</p>
+        <button type="button" class="btn-close align-right" data-bs-dismiss="alert"
+            aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% if message.tags == 'message-success' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Tudo certo!</strong>
+        <p>{{ message }}</p>
+        <button type="button" class="btn-close align-right" data-bs-dismiss="alert"
+            aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</div>

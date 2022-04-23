@@ -1,0 +1,89 @@
+<div class="row col-xl-12 detalhe-imovel-msg">
+    <h5>Detalhes do imóvel</h5>
+    <div class="col-xl-6">
+        <p>Título: {{ onechat.imovel_id.titulo }} </p>
+    </div>
+    <div class="col-xl-6">
+        <p>
+            Código do imóvel: <a href="/imoveis/detail/{{ onechat.imovel_id.id }}">
+                # {{ onechat.imovel_id.id }}</a>
+        </p>
+    </div>
+    <div class="col-xl-6">
+        <p>Localidade: {{ onechat.imovel_id.rua }}, {{ onechat.imovel_id.bairro }}, {{ onechat.imovel_id.cidade }}
+            - {{ onechat.imovel_id.estado }} </p>
+    </div>
+    <div class="col-xl-6">
+        <p>Valor do alguel: R$ {{ onechat.imovel_id.valor_aluguel }} </p>
+    </div>
+    <div class="col-xl-6">
+        <p>Locador: {{ onechat.locador.first_name }} </p>
+    </div>
+    <div class="col-xl-6">
+        <p>Proprietário: {{ onechat.imovel_id.propietario.first_name }} </p>
+    </div>
+
+</div>
+<div class="body-message ">
+    <div class="container">
+        {% for msg in onechat.chatmensagens.all %}
+        {% if msg.autor == request.user.id %}
+        <div class="row d-flex justify-content-end">
+            <div class="msg-sender">
+                <div class="text-end">
+                    <p><small><i>{{ msg.data |date:"SHORT_DATETIME_FORMAT" }}</i></small></p>
+                </div>
+                <p>{{ msg.mensagem }}</p>
+            </div>
+        </div>
+        {% else %}
+        <div class="row d-flex justify-content-start">
+            <div class="msg-recipient">
+                <div class="text-end">
+
+                    <p><small><i>{{ msg.data |date:"SHORT_DATETIME_FORMAT" }}</i></small></p>
+
+                </div>
+                <p>{{ msg.mensagem }}</p>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+
+
+<div class="col-xl-12 primary-shadow mt-2">
+    <form action="{% url 'mensagem:send_msg' %}" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+            <input type="hidden" name="locador" id="locador" value="{{ onechat.locador_id }}">
+            <input type="hidden" name="propietario" id="propietario" value="{{ onechat.propietario }}">
+            <input type="hidden" name="imovel_id" id="imovel_id" value="{{ onechat.imovel_id.id }}">
+            <input type="hidden" name="autor" id="autor" value="{{ request.user.id }}">
+            <input type="hidden" name="returnpage" id="returnpage" value="{{ request.get_full_path }}">
+            {% if chat.propietario == request.user.id %}
+            <input type="hidden" name="destinatario" id="destinatario" value="{{ onechat.locador_id }}">
+            {% else %}
+            <input type="hidden" name="destinatario" id="destinatario" value="{{ onechat.propietario }}">
+            {% endif %}
+            <label for="mensagem" class="col-form-label">Mensagem:</label>
+            <textarea class="form-control" id="mensagem" name="mensagem"></textarea>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Enviar mensagem</button>
+    </form>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        $(".body-message").scrollTop($(".body-message")[0].scrollHeight);
+
+    });
+
+</script>

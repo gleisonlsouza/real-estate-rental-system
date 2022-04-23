@@ -1,0 +1,49 @@
+{% load url_replace %}
+<div class="main-content">
+  <nav aria-label="Paginação">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?{% url_replace page=page_obj.previous_page_number %}">Anterior</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Anterior</a>
+      </li>
+      {% endif %}
+
+      {% if page_obj.number|add:'-3' > 1 %}
+      <li class="page-item"><a class="page-link" href="?{% url_replace page=page_obj.number|add:'-3' %}">&hellip;</a>
+      </li>
+      {% endif %}
+
+      {% for i in page_obj.paginator.page_range %}
+      {% if page_obj.number == i %}
+      <li class="page-item active" aria-current="page">
+        <span class="page-link">
+          {{ i }}
+          <span class="sr-only">(current)</span>
+        </span>
+      </li>
+      {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %} <li class="page-item"><a class="page-link"
+          href="?{% url_replace page=i %}">{{ i }}</a></li>
+        {% endif %}
+        {% endfor %}
+
+        {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+        <li class="page-item"><a class="page-link" href="?{% url_replace page=page_obj.number|add:'3' %}">&hellip;</a>
+        </li>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?{% url_replace page=page_obj.next_page_number %}">Próxima</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Próxima</a>
+        </li>
+        {% endif %}
+    </ul>
+  </nav>
+</div>

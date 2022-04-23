@@ -1,0 +1,344 @@
+:root{
+    --primary-color: #0A1128;
+    --white-color: #fff;
+    --light-grey-color: #eee;
+    --secundary-color: crimson;
+    --gap: 3rem;
+}
+
+* {
+
+    box-sizing: border-box;
+    color: var(--primary-color);
+
+
+}
+
+/*
+font-family: 'Montserrat', sans-serif;
+font-family: 'Open Sans', sans-serif;
+*/
+
+html {
+    font-size: 10px;
+    scroll-behavior: smooth;
+}
+
+body{
+   /* overflow-x: hidden;*/
+    font-family: 'Open Sans', sans-serif ;
+    font-size: 1.6rem;
+    color: var(--primary-color);
+    line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1{
+    font-size: 5rem;
+}
+
+h2{
+    
+    font-size: 4.5rem;
+
+}
+
+h3{
+    font-size: 4rem;
+}
+
+h4{
+    font-size: 3.5rem;
+}
+
+h5{
+    font-size: 3rem;
+}
+
+h6{
+    font-size: 2.5rem;
+}
+
+.menu-spacing {
+    height: 6rem;
+}
+
+.main-bg{
+    background-image: url('../images/main-bg.svg');
+    background-size: cover;
+    background-position: center center;
+    color: var(--white-color)
+}
+
+.middle-bg{
+    background-image: url('../images/middle-bg.svg');
+    background-size: cover;
+    background-position: center center;
+    color: var(--white-color)
+}
+
+.white-bg{
+    background: var(--white-color);
+    color: var(--primary-color);
+}
+
+.main-content{
+    max-width: 120rem;
+    margin: 0 auto;
+  
+}
+
+.navbar,
+.navbar-brand,
+.nav-item{    
+    font-size: 2.5rem;    
+
+}
+
+.navbar{
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+
+
+
+.navbar-nav a{    
+    font-size: 2.5rem;
+    font-family: 'Open Sans', sans-serif;
+    margin-right: 5rem;
+    
+}
+
+.my-account{    
+    left: 0;
+    margin-left: -1rem;
+    padding-left: 0;    
+    padding-right: 8rem;
+}
+
+.my-account a{
+    text-decoration: none;
+    font-size: 2.5rem;
+    font-family: 'Open Sans', sans-serif;
+    color: var(--primary-color);
+}
+
+.my-account a:hover{
+    color: var(--primary-color);
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+    
+}
+
+.dropdown-menu{
+    font-size: 1.5rem;
+}
+
+.section{
+    min-height: 100vh;   
+}
+
+.menu li a:hover{
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+}
+
+.main-content.card-content{
+    max-width: 80rem;
+}
+
+.main-card{
+    top: 10rem;
+    left: 0;
+    right: 0;
+    min-height: 50rem;
+}
+
+
+
+.main-card h1,p{
+    color: var(--primary-color);
+}
+
+.main-card .card-header h1{
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.card-body .input-group{
+    padding: 2rem;    
+}
+
+.card input,
+.card select,
+.card textarea{
+    margin-top: 1rem; 
+    margin-bottom: 1rem;  
+    font-size: 1.6rem;
+}
+
+.card-body .input-group select,
+.card-body .input-group span{
+    box-shadow: 0px 0px 2px 0px  blue;
+}
+
+.card-body .input-group label,
+.card-body .input-group select,
+.card-body .input-group span{    
+    font-size: 3rem;
+    height: 8rem;
+}
+
+.card-footer button{
+    width: 100%;
+    height: 8rem;
+    font-size: 3rem;
+}
+
+
+.grid-content{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.grid-content h2{
+    margin-bottom: 2rem;
+}
+
+.grid-title{
+    margin-bottom: 1rem;
+}
+
+.grid-description{
+    padding-bottom: 5rem;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: var(--gap);
+    counter-reset: grid-counter;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: var(--gap);
+    counter-reset: grid-counter;
+}
+.grid h3{
+    font-size: 3rem;
+    position: relative;
+    padding-left: 5rem;
+    padding-bottom: 3rem;
+}
+.grid h3::before{
+    counter-increment: grid-counter;
+    content: counter(grid-counter);
+    position: absolute;
+    font-size: 8rem;
+    font-style: italic;
+    top:-4rem;
+    left: -2rem;
+    transform: rotate(5deg);
+}
+
+.grid-proprietario h2,
+.grid-proprietario h3,
+.grid-proprietario p{
+    color: var(--white-color);
+}
+
+
+
+.div-side-menu{
+    position: fixed;       
+}
+
+.side-menu{
+    
+    display: block;
+    height: 100vh;    
+    overflow: hidden;    
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    background: white;
+}
+
+.side-menu h2{ 
+    text-align: center;    
+}
+.side-menu h2 a{ 
+    text-decoration: none;  
+    font-family: 'Montserrat', sans-serif;
+    font-size: 4rem;
+    color: var(--primary-color);   
+}
+
+.side-menu h5{
+    font-family: 'Open Sans', sans-serif ; 
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.side-menu .side-menu-options{
+    padding: 1rem;
+}
+
+.side-menu-options button{
+    font-size: 1.6rem;
+    width: 100%; 
+    height:5rem;  
+   
+}
+
+.btn-filter {   
+    text-align: left;
+    padding-left: 2rem;
+}
+
+.imoveis-list .div-card{
+    padding: 2rem;
+    
+}
+
+.imoveis-list .card{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    z-index: 0;
+    
+}
+
+
+.card-header img{    
+    width: 100%;
+    height: 100%;
+}
+
+.fa-solid{
+    color: white;
+    font-size: 1.6rem;
+    padding-right: 1.5rem;
+}
+
+
+
+
+@media (max-width: 1200px){
+    .side-menu{
+        display: block;
+        height: auto;
+    }
+
+    .div-side-menu{
+        position: relative;       
+    }
+
+ } 

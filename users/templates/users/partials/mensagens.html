@@ -1,0 +1,109 @@
+<div class="accordion" id="accordionChats">
+    {% for chat in chats %}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading{{ chat.id }}">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse{{ chat.id }}"
+                aria-expanded="{% if forloop.counter == 1 %} true {% else %} false {% endif %}"
+                aria-controls="collapse{{ chat.id }}">
+                {{ chat.titulo }} #{{ chat.locador.first_name }}
+            </button>
+        </h2>
+        <div class="row col-xl-12 detalhe-imovel-msg">
+            <h5>Detalhes do imóvel</h5>
+            <div class="col-xl-6">
+                <p>Título: {{ chat.imovel_id.titulo }} </p>
+            </div>
+            <div class="col-xl-6">
+                <p>
+                    Código do imóvel: <a href="/imoveis/detail/{{ chat.imovel_id.id }}">
+                        # {{ chat.imovel_id.id }}</a>
+                </p>
+            </div>
+            <div class="col-xl-6">
+                <p>Localidade: {{ chat.imovel_id.rua }}, {{ chat.imovel_id.bairro }},
+                    {{ chat.imovel_id.cidade }} - {{ chat.imovel_id.estado }} </p>
+            </div>
+            <div class="col-xl-6">
+                <p>Valor do alguel: R$ {{ chat.imovel_id.valor_aluguel }} </p>
+            </div>
+            <div class="col-xl-6">
+                <p>Locador: {{ chat.locador.first_name }} </p>
+            </div>
+            <div class="col-xl-6">
+                <p>Proprietário: {{ chat.imovel_id.propietario.first_name }} </p>
+            </div>
+
+        </div>
+        <div id="collapse{{ chat.id }}"
+            class="accordion-collapse collapse {% if forloop.counter == 1 %} show {% endif %}"
+            aria-labelledby="heading{{ chat.id }}" data-bs-parent="#accordionChats">
+            <div class="accordion-body body-message" id="div-{{chat.id}}">
+
+
+                <div class="container">
+                    {% for msg in chat.chatmensagens.all %}
+                    {% if msg.autor == request.user.id %}
+                    <div class="row d-flex justify-content-end">
+                        <div class="msg-sender">
+                            <div class="text-end">
+                                <p><small><i>{{ msg.data |date:"SHORT_DATETIME_FORMAT" }}</i></small></p>
+                            </div>
+                            <p>{{ msg.mensagem }}</p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="row d-flex justify-content-start">
+                        <div class="msg-recipient">
+                            <div class="text-end">
+                                <p><small><i>{{ msg.data |date:"SHORT_DATETIME_FORMAT" }}</i></small></p>
+                            </div>
+                            <p>{{ msg.mensagem }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
+
+            </div>
+            <div class="col-xl-12 primary-shadow mt-2">
+                <form action="{% url 'mensagem:send_msg' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <input type="hidden" name="locador" value="{{ chat.locador_id }}">
+                        <input type="hidden" name="propietario" value="{{ chat.propietario }}">
+                        <input type="hidden" name="imovel_id" value="{{ chat.imovel_id.id }}">
+                        <input type="hidden" name="autor" value="{{ request.user.id }}">
+                        {% if chat.propietario == request.user.id %}
+                        <input type="hidden" name="destinatario" value="{{ chat.locador_id }}">
+                        {% else %}
+                        <input type="hidden" name="destinatario" value="{{ chat.propietario }}">
+                        {% endif %}
+                        <label for="mensagem" class="col-form-label">Mensagem:</label>
+                        <textarea class="form-control" name="mensagem" id="mensagem"></textarea>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Enviar mensagem</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        $(".body-message").scrollTop($(".body-message")[0].scrollHeight);
+
+    });
+
+</script>

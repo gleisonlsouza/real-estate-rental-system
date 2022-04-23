@@ -1,0 +1,57 @@
+# Email settings
+# Default Google Host : 'smtp.gmail.com'
+# Default Google Email Port: '587'
+# If dont work, enable lesssecureapps https://myaccount.google.com/lesssecureapps # noqa
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'youremail@gmail.com'
+EMAIL_HOST_PASSWORD = 'yourpassword'
+
+# Recaptcha settigns variables
+# https://www.google.com/recaptcha/about/
+
+
+RECAPTCHA_PUBLIC_KEY = 'YOUR RECAPTCHA PUBLICK KEY'
+RECAPTCHA_PRIVATE_KEY = 'YOUR PRIVATE KEY'
+
+# Django secret key
+# You can generate using the code below
+# python -c "import string as s;from random import SystemRandom as sr;print(''.join(sr().choices(s.ascii_letters + s.punctuation, k=64)))" # noqa
+
+SECRET_KEY = 'YOUR DJANGO SECRET KEY'
+
+# 0 = False - 1 = True
+DEBUG = 1
+
+# Media files variables in PRDUCTION (DEBUG = 0)
+PRODUCTION_MEDIA_URL = 'https://exemple.com.br/media/'
+PRODUCTION_MEDIA_ROOT = '/home/exemple/public_html/media'
+
+
+# 0 = False - 1 = True
+# For functional test withh Selenium
+SELENIUM_HEADLESS = 1
+
+# Database settings
+
+# Sqlite
+DATABASE_ENGINE = 'django.db.backends.sqlite3'
+DATABASE_NAME = "./db.sqlite3"
+
+# Postgres
+# DATABASE_ENGINE='django.db.backends.postgresql'
+# DATABASE_NAME="basededados"
+
+# MySQL
+# DATABASE_ENGINE = 'django.db.backends.mysql'
+# DATABASE_NAME = "alugueldepobre"
+
+DATABASE_USER = "root"
+DATABASE_PASSWORD = ""
+DATABASE_HOST = "localhost"
+DATABASE_PORT = "3306"
+
+# Comma separted values
+ALLOWED_HOSTS = 'localhost,127.0.0.1,www.exemple.com.br,exemple.com.br'  # noqa
+CSRF_TRUSTED_ORIGINS = 'http://127.0.0.1,https://www.exemple.com.br,https://exemple.com.br'  # noqa

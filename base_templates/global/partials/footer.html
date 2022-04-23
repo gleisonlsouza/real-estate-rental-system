@@ -1,0 +1,85 @@
+{% load static %}
+<footer class="footer-bg">
+    <div class="main-content rodape">
+        <div class="row mt-5">
+            <div class="col-md-3">
+                <img src="{% static 'global/images/logo/whitelogo.png' %}" alt="Logo">
+                <p></p>
+                <p>Email: alugueldepobre@gmail.com</p>
+            </div>
+            <div class="col-md-3">
+                <h3>Site</h3>
+                <ul>
+                    <li>
+                        <a href="{% url 'home:home_index' %}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'home:home_index' %}#locador">Para o locador</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'home:home_index' %}#proprietario">Para o propietário</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'home:home_index' %}#sobre">Sobre</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h3>Links</h3>
+                <ul>
+                    <li>
+                        <a href="{% url 'imoveis:imoveis_view_list' %}">Imóveis</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'users:users_login' %}">Login</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'users:users_register' %}">Cadastro</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'users:users_register' %}">Painel do usuário</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h3>Suporte</h3>
+                <ul>
+                    <li>
+                        <a href="#" data-bs-toggle="modal"
+                        data-bs-target="#modalTermos">Termo de uso e privacidade</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'home:home_index' %}#contato">Contato</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <hr class="dropdown-divider white-color">
+    <!-- Manter essas informaçês sobre o desenvolvedor-->
+    <div class="col-md-12">
+        <div class="main-content rodape">
+            <div class="row">
+                <div class="col-sm-4">
+                    <p>Desenvolvido por Gleison Souza</p>
+                </div>
+                <div class="col-sm-4">
+                    <p>Email: gleison.lsouza@gmail.com</p>
+                    https://www.linkedin.com/in/gleison-souza-3b0939237/
+                </div>
+                <div class="col-sm-4">
+                    <a href="https://www.linkedin.com/in/gleison-souza-3b0939237/">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+
+                    <a href="https://www.facebook.com/gleison.souza.9461">
+                        <i class="fa-brands fa-facebook-square"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    {% include 'global/partials/termos.html' %}    
+</footer>
