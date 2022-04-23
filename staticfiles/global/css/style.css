@@ -430,6 +430,12 @@ select option{
     object-fit: contain;
    }
 
+   .imovel-list-foto img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+   }
+
    .carousel-control-prev-icon {       
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ad99ad' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
    }
@@ -617,7 +623,9 @@ select option{
     border-radius: 55px 55px 55px 0px;
 }
 
+.msg-sender p>small>i,
 .msg-sender p,
+.msg-recipient p>small>i,
 .msg-recipient p{
     margin-left: 1rem;
     margin-right: 1rem;
